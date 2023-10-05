@@ -19,6 +19,7 @@ public class LondonService {
     return users;
   }
 
+
   public List<User> getUsersInLondon() {
     // TODO : get all users in London
     List<User> users = apiService.getUsers();
@@ -35,6 +36,20 @@ public class LondonService {
     return usersInLondon;
   }
 
+  public List<User> getUsersWhoLiveNearLondon() {
+    List<User> users = apiService.getUsers();
+    List<User> usersNearLondon = new ArrayList<>();
+
+    for(User user : users) {
+      double distance = haversineDistance(user.getLatitude(), user.getLongitude());
+      if(distance <= 72  && distance >= 12){
+        usersNearLondon.add(user);
+        System.out.println("User " + user.getFirst_name() + " near in London");
+      }
+    }
+    return usersNearLondon;
+  }
+
   private double haversineDistance(double lat1, double lon1) {
     final double EARTH_RADIUS = 3958.8;
 
@@ -49,4 +64,5 @@ public class LondonService {
     return EARTH_RADIUS * c;
 
   }
+
 }

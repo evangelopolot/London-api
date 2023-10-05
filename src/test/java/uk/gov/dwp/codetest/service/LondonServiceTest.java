@@ -49,6 +49,16 @@ class LondonServiceTest {
   }
 
   @Test
+  @DisplayName("Given a user who lives within between 72 miles and 12 miles from London coordinates, return that user as Living 50 miles from london")
+  public void givenAUserCoordinatesOf72MilesFromLondonReturnTheUserAsLiving50MilesFromLondon(){
+    List<User> user = new ArrayList<>();
+    user.add(new User(11, "John", "Doe", "johndoe@example.com", "123.456.789.0", 51.307f, -0.090f));
+    when(apiServiceMock.getUsers()).thenReturn(user);
+    List<User> usersNearLondon = londonService.getUsersWhoLiveNearLondon();
+    assertEquals(1, usersNearLondon.size(), "Size should equal 1");
+  }
+
+  @Test
   void getUsersInLondon() {
     final List<User> users = londonService.getUsersInLondon();
     assertNotNull(users);
