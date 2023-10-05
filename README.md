@@ -6,3 +6,5 @@ Using Java please build your own API which calls the API on the link provided an
 
 Please consider your approach to clean code and testing when composing your solution.
 
+For this problem I use 12 miles as a minimal assumption for the radius of london. 
+
