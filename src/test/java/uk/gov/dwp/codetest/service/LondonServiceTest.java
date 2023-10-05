@@ -1,7 +1,6 @@
 package uk.gov.dwp.codetest.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ class LondonServiceTest {
     user.add( new User(11, "Jack", "Boo", "jack.boo@mail.com", "192.57.252.111", 51.5175f, -0.1209f));
     when(apiServiceMock.getUsers()).thenReturn(user);
     List<User> usersInLondon = londonService.getUsersInLondon();
+    assertTrue(usersInLondon.contains(user.get(0)));
     assertEquals(1, usersInLondon.size(), "Size should equal 1");
   }
 
