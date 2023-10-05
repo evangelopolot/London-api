@@ -1,7 +1,6 @@
 package uk.gov.dwp.codetest.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import uk.gov.dwp.codetest.domain.User;
 
@@ -15,7 +14,8 @@ public class LondonService {
 
   public List<User> getUsers() {
     List<User> users = new ArrayList<>();
-    // TODO : get all users
+    users.addAll(getUsersInLondon());
+    users.addAll(getUsersWhoLive50MilesFromLondon());
     return users;
   }
 
@@ -36,7 +36,7 @@ public class LondonService {
     return usersInLondon;
   }
 
-  public List<User> getUsersWhoLiveNearLondon() {
+  public List<User> getUsersWhoLive50MilesFromLondon() {
     List<User> users = apiService.getUsers();
     List<User> usersNearLondon = new ArrayList<>();
 
