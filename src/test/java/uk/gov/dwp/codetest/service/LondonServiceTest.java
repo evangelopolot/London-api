@@ -34,6 +34,7 @@ class LondonServiceTest {
   public void givenAnEmptyListReturnAnEmptyString() {
     when(apiServiceMock.getUsers()).thenReturn(new ArrayList<>());
     List<User> usersNearLondon = londonService.getUsers();
+
     assertEquals(0, usersNearLondon.size(), "Size should equal 1");
   }
 
@@ -42,8 +43,10 @@ class LondonServiceTest {
   public void givenAUserWhoLives12MilesFromLondonCoordinatesReturnThatUserAsLivingInLondon() {
     List<User> user = new ArrayList<>();
     user.add( new User(11, "Jack", "Boo", "jack.boo@mail.com", "192.57.252.111", 51.5175f, -0.1209f));
+
     when(apiServiceMock.getUsers()).thenReturn(user);
     List<User> usersInLondon = londonService.getUsersInLondon();
+
     assertTrue(usersInLondon.contains(user.get(0)));
     assertEquals(1, usersInLondon.size(), "Size should equal 1");
   }
@@ -53,8 +56,10 @@ class LondonServiceTest {
   public void givenAUserCoordinatesOf72MilesFromLondonReturnTheUserAsLiving50MilesFromLondon(){
     List<User> user = new ArrayList<>();
     user.add(new User(11, "John", "Doe", "johndoe@example.com", "123.456.789.0", 51.307f, -0.090f));
+
     when(apiServiceMock.getUsers()).thenReturn(user);
     List<User> usersNearLondon = londonService.getUsersWhoLive50MilesFromLondon();
+
     assertEquals(1, usersNearLondon.size(), "Size should equal 1");
   }
 
@@ -63,22 +68,39 @@ class LondonServiceTest {
   public void givenAUserWhoLivesExactly50MilesFromLondonReturnUserAsLiving50MilesFromLondon(){
     List<User> user = new ArrayList<>();
     user.add( new User(12, "Jane", "Smith", "janesmith@example.com", "987.654.321.0", 51.305f, -0.075f));
+
     when(apiServiceMock.getUsers()).thenReturn(user);
     List<User> usersNearLondon = londonService.getUsersWhoLive50MilesFromLondon();
+
     assertEquals(1, usersNearLondon.size(), "Size should equal 1");
   }
 
   @Test
   @DisplayName("Given a list of users, return those who live 50 miles from or in london")
   public void givenAListOfUsersReturnThoseWhoLiveInLondonOrNearLondon() {
-    List<User> user = new ArrayList<>(listOfUsers());
+    List<User> users = new ArrayList<>(listOfUsers());
     User userLivesNearLondon = new User(12, "Jane", "Smith", "janesmith@example.com", "987.654.321.0", 51.305f, -0.075f);
     User userLivesInLondon = new User(11, "Jack", "Boo", "jack.boo@mail.com", "192.57.252.111", 51.5175f, -0.1209f);
-    user.add(userLivesNearLondon);
-    user.add(userLivesInLondon);
-    when(apiServiceMock.getUsers()).thenReturn(user);
+    users.add(userLivesNearLondon);
+    users.add(userLivesInLondon);
+
+    when(apiServiceMock.getUsers()).thenReturn(users);
     List<User> usersNearLondon = londonService.getUsers();
+
     assertEquals(2, usersNearLondon.size(), "Size should equal 1");
+  }
+  
+  @Test
+  @DisplayName("Given a user who lives exactly at London Coordinates, return the user as living in London")
+  public void givenAUserWhoLivesExcatlyAtTheLondonCoordinatesReturnUserAsLivingInLondon(){
+    List<User> users = new ArrayList<>(listOfUsers());
+    User user = new User(11, "Jacob", "Reel", "jack.boo@mail.com", "192.57.252.111", 51.509865f, -0.118092f);
+    users.add(user);
+
+    when(apiServiceMock.getUsers()).thenReturn(users);
+    List<User> usersInLondon = londonService.getUsers();
+    assertTrue(usersInLondon.contains(user));
+    assertEquals(1, usersInLondon.size(),"Should return users in London as 1");
   }
 
   @Test
