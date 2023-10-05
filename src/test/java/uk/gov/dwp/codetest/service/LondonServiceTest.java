@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +52,16 @@ class LondonServiceTest {
   public void givenAUserCoordinatesOf72MilesFromLondonReturnTheUserAsLiving50MilesFromLondon(){
     List<User> user = new ArrayList<>();
     user.add(new User(11, "John", "Doe", "johndoe@example.com", "123.456.789.0", 51.307f, -0.090f));
+    when(apiServiceMock.getUsers()).thenReturn(user);
+    List<User> usersNearLondon = londonService.getUsersWhoLiveNearLondon();
+    assertEquals(1, usersNearLondon.size(), "Size should equal 1");
+  }
+
+  @Test
+  @DisplayName("Given a user who live who lives approximately 72 miles from London coordinates, return that user as living 50 from London")
+  public void givenAUserWhoLivesExactly50MilesFromLondon(){
+    List<User> user = new ArrayList<>();
+    user.add( new User(12, "Jane", "Smith", "janesmith@example.com", "987.654.321.0", 51.305f, -0.075f));
     when(apiServiceMock.getUsers()).thenReturn(user);
     List<User> usersNearLondon = londonService.getUsersWhoLiveNearLondon();
     assertEquals(1, usersNearLondon.size(), "Size should equal 1");
